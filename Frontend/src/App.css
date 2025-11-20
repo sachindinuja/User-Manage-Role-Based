@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #113d72;
+  --color-secondary: #2074d8;
+  --color-accent: #9013fe;
+  --color-background: #ffffff;
+  --color-success: #34a853;
+  --color-error: #dd172e;
+  --color-orange: #ff8c00;
+  --color-warning: #c5172e;
+}
+.custom-progress .ant-progress-text {
+  color: rgb(255, 255, 255) !important;
+}
+.background-img {
+  background-image: url("../src/assets/images/mainbg2.png");
+  background-size: cover;
+  background-position: center;
+}
+.background-img2 {
+  background-image: url("../src/assets/images/gradient_bg.png");
+  background-size: cover;
+  background-position: center;
+}
+.background-img3 {
+  background-image: url("../src/assets/images/sideImg2.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+  width: auto;
+  height: auto;
+  z-index: -1;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.main-content {
+  position: relative;
+  z-index: 1;
+}
+@import "@fontsource-variable/inter";
+/* @import url("https://fonts.googleapis.com/css2?family=Mina:wght@400;700&display=swap"); */
+body {
+  font-family: "Inter", sans-serif;
+}
+
+.font-mina-reg {
+  font-family: "Mina", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-mina-bold {
+  font-family: "Mina", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}

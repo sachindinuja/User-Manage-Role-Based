@@ -1,0 +1,13 @@
+colorama
+fastapi
+prettytable
+pydantic
+pydantic_core
+python-dateutil
+python-dotenv
+requests
+sqlparse
+termcolor
+uvicorn
+gunicorn # deploy changes
+psycopg2-binary==2.9.10

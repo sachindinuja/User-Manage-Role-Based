@@ -1,0 +1,73 @@
+name: sales
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    env_file:
+      - /sales-pipeline/env/DB.env
+    volumes:
+      - sales_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d SALES_INCENTIVE"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [sales_net]
+    ports:
+      - "5432:5432"
+    pull_policy: always
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    networks: [sales_net]
+    ports:
+      - "6379:6379"
+    pull_policy: always
+
+  backend:
+    image: ${NAMESPACE}/sales-backend:${IMAGE_TAG}
+    container_name: sales-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - /sales-pipeline/env/Backend.env
+      - /sales-pipeline/env/DB.env
+    networks: [sales_net]
+    ports:
+      - "8000:8000"
+    pull_policy: always
+
+  sia_cal:
+    image: ${NAMESPACE}/sales-sia-cal:${IMAGE_TAG}
+    container_name: sales-sia-cal
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - /sales-pipeline/env/Backend.env
+      - /sales-pipeline/env/DB.env
+    networks: [sales_net]
+    pull_policy: always
+
+  frontend:
+    image: ${NAMESPACE}/sales-frontend:${IMAGE_TAG}
+    container_name: sales-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    networks: [sales_net]
+    ports:
+      - "80:80"
+    pull_policy: always
+
+volumes:
+  sales_pgdata:
+
+networks:
+  sales_net:
+    driver: bridge
