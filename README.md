@@ -72,11 +72,11 @@ docker-compose down
 
 ---
 
-Developer pushes code → triggers webhook → Jenkins Pipeline starts → Build Docker images → Push to Docker Hub → Pull new images on VM
-
----
-
 ### Jenkins pipeline stages
-![Pipeline Stage](src/assets/icons/Pipeline%20stage.png)
+
+Developer pushes code → triggers webhook → Jenkins Pipeline starts → Build Docker images → Push to Docker Hub → Pull new images on VM
+![Pipeline Stages](src/assets/icons/PipelineStages.png)
+
+
 
 
