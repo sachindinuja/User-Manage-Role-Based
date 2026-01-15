@@ -82,9 +82,9 @@ docker-compose down
 
 ## 📌 Jenkins pipeline dashboard
 
-Developer pushes code → triggers webhook → Jenkins Pipeline starts → Build Docker images → Security scan → Push to Docker Hub → Pull new images on VM → Services restart
-
 ![Pipeline Stages](Frontend/src/assets/icons/PipelineStages.png)
+
+## 📌 Jenkins pipeline dashboard
 
 
 
