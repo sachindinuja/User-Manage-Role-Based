@@ -8,7 +8,7 @@ The system includes:
 - **Sia-Cal** (calculation service)
 - **Database** (PostgreSQL)
 - **Redis** (caching layer)
-
+- **SonarQube** (Static Code Analysis & Quality Gate)
 ---
 
 ## 📌 Project Structure
@@ -27,7 +27,8 @@ The system includes:
 │   ├── .dockerignore
 │   ├── nginx.conf
 │   └── src/...
-├── docker-compose.yml
+├── docker-compose.yml  # For application services
+├── sonar-compose.yml   # SonarQube + PostgreSQL
 ├── Jenkinsfile
 ├── README.md
 ```
@@ -44,11 +45,15 @@ The system includes:
 2. **Webhook Trigger**  
    A webhook notifies Jenkins of the new commit.
 
-3. **Jenkins Pipeline Execution**  
-   - Builds Docker images for each service. 
+3. **Jenkins Pipeline Execution** 
+   - Static code analysis using SonarQube 
+   - Quality Gate enforcement (pipeline fails if not passed)
+   - Builds Docker images for each service (Frontend, Backend, Cal_Service)
+   - **Trivy** scans built images for High/Critical OS-level vulnerabilities.
+   - Target VM pulls updated images and restarts services via `docker-compose`
    - Tags and pushes images to Docker Hub.
 
-4. **Deployment**  
+4. **Deployment on VM**  
    - Target VM pulls the latest images.  
    - Services are restarted using `docker-compose`.
 
@@ -66,6 +71,9 @@ The system includes:
 # Build and run all services
 docker-compose up --build
 
+# Start SonarQube
+docker compose -f sonar-compose.yml up -d
+
 # Stop services
 docker-compose down
 ```
@@ -74,7 +82,7 @@ docker-compose down
 
 ## 📌 Jenkins pipeline dashboard
 
-Developer pushes code → triggers webhook → Jenkins Pipeline starts → Build Docker images → Push to Docker Hub → Pull new images on VM
+Developer pushes code → triggers webhook → Jenkins Pipeline starts → Build Docker images → Security scan → Push to Docker Hub → Pull new images on VM → Services restart
 
 ![Pipeline Stages](Frontend/src/assets/icons/PipelineStages.png)
 
